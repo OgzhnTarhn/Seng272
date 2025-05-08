@@ -1,8 +1,0 @@
-# tasks.txt
-# TASK1;ID;"Title";"Desc";deadline;points
-# TASK2;ID;"Title";"Desc";start;end;points
-
-TASK1;101;"Math Homework";"Solve pages 1-10";2025-05-19T15:00;10
-TASK2;102;"Science Project";"Volcano model";2025-05-12T23:00;2025-05-14T16:00;15
-TASK1;103;"History Essay";"Ancient Rome";2025-05-07T19:00;8
-TASK2;104;"English Presentation";"Prepare slides";2025-05-12T10:00;2025-05-12T11:30;12

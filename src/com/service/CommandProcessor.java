@@ -1,18 +1,12 @@
-import com.kidtask.model.*;
+package com.service;
+
+import com.model.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandProcessor {public CommandProcessor(TaskService taskService, WishService wishService, Parent parent, Child child) {
-    if (taskService == null || wishService == null || parent == null || child == null) {
-        throw new IllegalArgumentException("Parametreler null olamaz!");
-    }
-    this.taskService = taskService;
-    this.wishService = wishService;
-    this.parent = parent;
-    this.child = child;
-}
+public class CommandProcessor {
     private final TaskService taskService;
     private final WishService wishService;
     private final Parent parent;
