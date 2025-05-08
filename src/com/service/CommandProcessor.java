@@ -175,15 +175,38 @@ public class CommandProcessor {
         String action = parts[1];
         if (action.equals("APPROVED")) {
             int requiredLevel = parts.length > 2 ? Integer.parseInt(parts[2]) : 1;
-            int level = switch (child.getLevel()) {
-                case "Bronze" -> 1;
-                case "Silver" -> 2;
-                case "Gold" -> 3;
-                default -> 0;
-            };
+            // Parse level from "Level X" format
+            String levelStr = child.getLevel();
+            int level = Integer.parseInt(levelStr.replace("Level ", ""));
+            
+            // Get wish and check its price
+            Wish wish = wishService.getWishById(wishId);
+            if (wish == null) {
+                System.out.println("Wish not found: " + wishId);
+                return;
+            }
+
+            // Extract price from description (assuming format: "Price:XXXTL")
+            String desc = wish.getDescription();
+            int price = 0;
+            try {
+                String priceStr = desc.substring(desc.indexOf("Price:") + 6, desc.indexOf("TL")).trim();
+                price = Integer.parseInt(priceStr);
+            } catch (Exception e) {
+                System.out.println("Invalid price format in wish description: " + desc);
+                return;
+            }
+
+            // Check both level and points
             if (level >= requiredLevel) {
-                wishService.approveWish(wishId);
-                System.out.println("Wish " + wishId + " approved.");
+                if (child.getPoints() >= price) {
+                    wishService.approveWish(wishId);
+                    child.setPoints(child.getPoints() - price); // Deduct points
+                    System.out.println("Wish " + wishId + " approved. Remaining points: " + child.getPoints());
+                } else {
+                    wishService.rejectWish(wishId);
+                    System.out.println("Child's points (" + child.getPoints() + ") is insufficient for wish price (" + price + "). Rejecting wish " + wishId);
+                }
             } else {
                 wishService.rejectWish(wishId);
                 System.out.println("Child's level (" + level + ") is insufficient for required level " + requiredLevel + ". Rejecting wish " + wishId);
