@@ -2,6 +2,7 @@ package com.model;
 import com.file.FileHandler;
 import com.service.TaskService;
 import com.service.WishService;
+import com.service.CommandProcessor;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
